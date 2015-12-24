@@ -9,11 +9,11 @@ $WEBSERVER=$_SERVER['SERVER_NAME'];
 $BASEURL="http://" . $WEBSERVER;
 
 // Load Site Specific info
-require_once($BASEDIR . "/.ht_ciab_config.php");
+require_once($BASEDIR . "/.ht_hotelalloc_config.php");
 
 // Static Variables
-$BUILD=explode(" ", '$Rev: 476 $');
-$VERSION="6.0 Build: " . $BUILD[1];
+$BUILD=explode(" ", '$Rev: 1 $');
+$VERSION="0.1 Build: " . $BUILD[1];
 $SITESUPPORTDIR=$BASEDIR . "/sitesupport";
 $PAGESDIR=$BASEDIR . "/pages";
 

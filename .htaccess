@@ -1,7 +1,7 @@
 ErrorDocument 403 /sitesupport/index.php
 
 # Block 'hidden' files
-<FilesMatch "^\.(ht|svn)">
+<FilesMatch "^\.(ht|svn|git)">
   Order allow,deny
   Deny from all
 </FilesMatch>

@@ -21,9 +21,9 @@ function UserAuthorized($user, $position) {
 }
 
 function getCurrentUser() { //string(username), or False
-	if (!empty($_SESSION['username'])) {
-	  if($_SESSION['username'] == $GLOBALS['ADMINUSER']) {
-	    // $ADMINUSER is allowed all postitions, Log 'em in!
+  if (!empty($_SESSION['username'])) {
+    if($_SESSION['username'] == $GLOBALS['ADMINUSER']) {
+      // $ADMINUSER is allowed all postitions, Log 'em in!
       return $_SESSION['username'];
     } else {
       if (UserAuthorized($_SESSION['username'], $_SESSION['position'])) {
@@ -32,9 +32,9 @@ function getCurrentUser() { //string(username), or False
         return False;
       }
     }
-	} else {
-		return False;
-	}
+  } else {
+    return False;
+  }
 }
 
 function doUserAndPasswordMatch($user,$password) {
@@ -94,19 +94,19 @@ if (isset($_COOKIE[session_name()])) {
 
 // Check if there is a login attempt
 if (!empty($_REQUEST['user'])) {
-	if (doUserAndPasswordMatch($_REQUEST['user'],$_REQUEST['password'])) {
-	  // Log in the User
-	  session_start();
+  if (doUserAndPasswordMatch($_REQUEST['user'],$_REQUEST['password'])) {
+    // Log in the User
+    session_start();
     $_SESSION['username'] = $_REQUEST['user'];
     $_SESSION['position'] = $_REQUEST['position'];
     MakeLog("Login Allowed");
 
-	  if (getCurrentUser()) {
-	    // Logged in successfully, Grab user's Real Name
-  	  if($_SESSION['username'] == $GLOBALS['ADMINUSER']) {
-	      $_SESSION['FullName'] = "Admin User";
+    if (getCurrentUser()) {
+      // Logged in successfully, Grab user's Real Name
+      if($_SESSION['username'] == $GLOBALS['ADMINUSER']) {
+        $_SESSION['FullName'] = "Admin User";
       } else {
-	      $query="SELECT ATTENDEE_ID FROM " . $AUTHENTICATIONTABLE . " WHERE LoginName='" . $_REQUEST['user'] . "'";
+        $query="SELECT ATTENDEE_ID FROM " . $AUTHENTICATIONTABLE . " WHERE LoginName='" . $_REQUEST['user'] . "'";
         $result=run_query($query);
         $rows=mysql_fetch_assoc($result);
 
@@ -119,13 +119,15 @@ if (!empty($_REQUEST['user'])) {
       $_SESSION['administrator'] = CheckAdminStatus();
       goSite('/index.php?Function=main'); // goto default
     } else {
-        MakeLog("User not authorized for " . $_REQUEST['position'] . ", logged out");
-        $RETRY=2; // Not Authorized for requested position
-        session_destroy();
+      MakeLog("User not authorized for " . $_REQUEST['position'] . ", logged out");
+      $RETRY=2; // Not Authorized for requested position
+      $_SESSION=array();
+      session_destroy();
+      setcookie(session_name(), '', time()-42000, '/');
     }
-	} else {
-	  MakeLog("Failed Login Attempt");
-	  $RETRY=1; // Bad password
-	}
+  } else {
+    MakeLog("Failed Login Attempt");
+    $RETRY=1; // Bad password
+  }
 }
 ?>
