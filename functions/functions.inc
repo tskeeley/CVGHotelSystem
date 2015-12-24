@@ -8,6 +8,9 @@ $BASEDIR=dirname($FUNCTIONDIR);
 $WEBSERVER=$_SERVER['SERVER_NAME'];
 $BASEURL="http://" . $WEBSERVER;
 
+die();
+exit();
+
 // Load Site Specific info
 require_once($BASEDIR . "/.ht_hotelalloc_config.php");
 
