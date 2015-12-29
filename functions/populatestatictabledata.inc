@@ -13,13 +13,13 @@ else {
 // Ops DB Structure
 $HOTELALLOC_TABLES = [
   // LOGSTABLE needs to be the first table created as the create process posts to it on success (MakeLog)
-  $GLOBALS['SYSTEMLOGTABLE'] => "
+  $SYSTEMLOGTABLE => "
     EntryID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     LogEntry TEXT,
     Created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   ",
   // Shouldn't Authentication be done via Neon? ##==##
-  $GLOBALS['AUTHENTICATIONTABLE'] => "
+  $AUTHENTICATIONTABLE => "
     ATTENDEE_ID INT NOT NULL PRIMARY KEY,
     LoginName VARCHAR(20) NOT NULL UNIQUE,
     Password VARCHAR(100) NOT NULL,
@@ -34,7 +34,7 @@ $NEON_TABLES = [
 ATTENDEETABLE will probably be MAJORLY changed as we go, including bits, and "qualifications" for all other things
 like IWAccess rooms, CON rooms, suites, direct assignments, etc
 */
-  $GLOBALS['ATTENDEETABLE'] => "
+  $ATTENDEETABLE => "
     ATTENDEEID INT NOT NULL PRIMARY KEY,
     WCACCESS BIT(1),
     25CONCOM BIT(1),
@@ -52,24 +52,23 @@ $DBTABLES=$HOTELALLOC_TABLES + $NEON_TABLES;
 // Add all "static" content functions here (at least default vaules)
 
 function PopulateStaticData ($table) {
-  global $SYSTEMLOGTABLE;
   switch ($table) {
-    case $SYSTEMLOGTABLE:
+    case $GLOBALS['SYSTEMLOGTABLE']:
 	    $EntryFields = "LogEntry";
       $EntryData = [
         "Initial Run"
       ];
 
-    foreach($EntryData as $line) {
-      $query="REPLACE INTO " . $LOGTAGSTABLE . " (" . $EntryFields . ") VALUES(" . $line . ");";
-      run_query($query);
-    }
+      foreach($EntryData as $line) {
+        $query="REPLACE INTO " . $LOGTAGSTABLE . " (" . $EntryFields . ") VALUES(" . $line . ");";
+        run_query($query);
+      }
 
-    MakeLog("Populated Static/Default data into " . $table . ": " . mysql_error());
-    break;
-  default:
-    //MakeLog("No Static/Default data defined for " . $table); // Debug to system log
-    break;
+      MakeLog("Populated Static/Default data into " . $table . ": " . mysql_error());
+      break;
+    default:
+      //MakeLog("No Static/Default data defined for " . $table); // Debug to system log
+      break;
   }
 }
 

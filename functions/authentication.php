@@ -35,7 +35,7 @@ function getCurrentUser($user=FALSE, $position) { //string(username), or False
       // $ADMINUSER is allowed all postitions, Log 'em in!
       return $user;
     } else {
-      if (UserAuthorized($user, $position) {
+      if (UserAuthorized($user, $position)) {
         return $user;
       } else {
         return False;
@@ -120,6 +120,7 @@ function LoginUser($user, $password, $position) {
       LogoutUser();
       MakeLog("User not authorized for " . $position . ", logged out");
       $RETRY=2; // Not Authorized for requested position
+    }
   } else {
     MakeLog("Failed Login Attempt");
     $RETRY=1; // Bad password
