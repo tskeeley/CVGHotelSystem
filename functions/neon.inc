@@ -6,10 +6,9 @@
  * Learn more about NeonCRM at http://www.z2systems.com
  * Authored by Colin Pizarek
  * http://github.com/colinpizarek
+ * Pulled 12/20/2015
  */
 
-require_once($BASEDIR . "/.ht_neon.php");
-session_start();
 $_SESSION['neonSession'] = null;
 
 class Neon 
@@ -192,11 +191,11 @@ class Neon
 }
 
 /* Start the NeonCRM Session */
-$neon = new Neon();
-$keys = array(
-  'orgId'=>$neonId,
-  'apiKey'=>$neonKey,
-  ); 
-$neon->login($keys) or die("Failed to login to the NeonCRM System with OrgID " . $orgId . ".  Check the login/API settings in .ht_neon.php!  Error returned: ". $neon['responsemessage']);
+$Neon = new Neon();
+$keys = [
+  'orgId'=>$NEONID,
+  'apiKey'=>$NEONKEY,
+  ]; 
+$Neon->login($keys) or die("Failed to login to the NeonCRM System with OrgID " . $orgId . ".  Check the login/API settings in .ht_neon.php!  Error returned: ". $neon['responsemessage']);
 
 ?>

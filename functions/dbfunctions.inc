@@ -1,60 +1,38 @@
 <?php
 
 // Standard DB Functions
+$AUTHENTICATIONTABLE="Authentication";
+$SYSTEMLOGTABLE="SystemLog";
 
-$AUTHENTICATIONTABLE="Ops_Authentication";
-$DEPARTMENTSTABLE="Ops_Departments";
-$DUTYTABLE="Ops_OnDuty";
-$LOGENTRIESTABLE="Ops_LogEntries";
-$LOGSTABLE="Ops_Logs";
-$LOGTAGSTABLE="Ops_LogTags";
-$LOSTFOUNDTABLE="Ops_LostFound";
-$LOSTFOUNDTYPESTABLE="Ops_LostFoundTypes";
-$SYSTEMLOGTABLE="Ops_SystemLog";
-$USERSKILLSTABLE="Ops_UserSkills";
-
-$EQUIPMENTDIR=$DATADIR . "/Equipment";
-$EQUIPMENTTABLE="Ops_Equipment";
-$SCHEDDIR=$PROJECTDIR . "/Schedules";
-$SCHEDTABLE="Ops_Schedules";
-
-// Imported Tables from Registration
-$ADDRESSTYPETABLE="ADDRESS_TYPE";
+// Pulled from NeonCRM API
 $ATTENDEETABLE="ATTENDEE";
-$BADGETABLE="BADGE";
-$BADGENUMBERTABLE="BADGE_NUMBER";
-$BANTABLE="BAN";
-$COUNTRYTABLE="COUNTRY";
-$STATETABLE="STATE";
-// End Registration Tables
 
 // Open the Great DB Of Knowledge!
 function OpenDBConnection() {
-	global $DBHOST, $DBUSER, $DBNAME, $DBPASS;
-	$DBHandle=mysql_connect($DBHOST, $DBUSER, $DBPASS) or die("Could not connect to Database " . $DBHOST . " as " . $DBUSER . ".  Aborting: " . mysql_error());
-	mysql_select_db($DBNAME) or die ("Could not select database " . $DBNAME . ".  Aborting: " . mysql_error());
-	return $DBHandle;
+  global $DBHOST, $DBUSER, $DBNAME, $DBPASS;
+  $DBHandle=mysql_connect($DBHOST, $DBUSER, $DBPASS) or die("Could not connect to Database " . $DBHOST . " as " . $DBUSER . ".  Aborting: " . mysql_error());
+  mysql_select_db($DBNAME) or die ("Could not select database " . $DBNAME . ".  Aborting: " . mysql_error());
+  return $DBHandle;
 }
 
 function run_query($query) {
-	$result=mysql_query($query);
+  $result=mysql_query($query);
 
-	if (!$result) {
-	    if (mysql_errno()==1146) { // Error for missing table
-	        $oquery=$query; // Save this query
+  if (!$result) {
+    if (mysql_errno()==1146) { // Error for missing table
+      $oquery=$query; // Save this query
 
-		// Attempt to rebuild tables.... maybe this is our first run?
-		require($GLOBALS['FUNCTIONDIR'] . "/populatestatictabledata.inc");
+      // Attempt to rebuild tables.... maybe this is our first run?
+      require($GLOBALS['FUNCTIONDIR'] . "/populatestatictabledata.inc");
 
-	        // Reattempt original query
-        	$result=mysql_query($oquery) or die("Could not successfully run query ($oquery) from DB: " . mysql_error());
-	    }
-	    else {
-	        die("Could not successfully run query ($query) from DB: " . mysql_error());
-	    }
-	}
+      // Reattempt original query
+      $result=mysql_query($oquery) or die("Could not successfully run query ($oquery) from DB: " . mysql_error());
+    } else {
+      die("Could not successfully run query ($query) from DB: " . mysql_error());
+    }
+  }
 
-	return $result;
+  return $result;
 }
 
 function MakeLog($Entry) {
@@ -74,7 +52,7 @@ function MakeLog($Entry) {
 
 // Get a DB Handle (since we almost ALWAYS need it)
 if(empty($DBHandle) || !$DBHandle) {
-	$DBHandle=OpenDBConnection();
+  $DBHandle=OpenDBConnection();
 }
 
 ?>
