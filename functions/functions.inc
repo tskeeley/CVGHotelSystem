@@ -28,9 +28,6 @@ function goSite($Site=FALSE) {
 	exit(); // Dump this run, assume the new page will start from scratch
 }
 
-die();
-exit();
-
 // Load Site Specific info
 if (is_file($SITECONFIG)) {
   require_once($SITECONFIG);
@@ -53,6 +50,9 @@ if (is_file($SITECONFIG)) {
   </html>';
   die();
 }
+
+die();
+exit();
 
 // Start the session so we are ready to go no matter what we do!
 session_start();
