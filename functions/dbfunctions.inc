@@ -5,7 +5,8 @@ $AUTHENTICATIONTABLE="Authentication";
 $SYSTEMLOGTABLE="SystemLog";
 
 // Pulled from NeonCRM API
-$ATTENDEETABLE="ATTENDEE";
+$CUSTOMFIELDS="CustomFields";
+$ATTENDEETABLE="EventAttendees";
 
 // Open the Great DB Of Knowledge!
 function OpenDBConnection() {

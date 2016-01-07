@@ -7,7 +7,6 @@ function LogoutUser() {
     setcookie(session_name(), '', time()-42000, '/');
   }
   session_destroy();
-  goSite();
 }
 
 function doUserAndPasswordMatch($user, $password) {
@@ -58,7 +57,7 @@ die("Poll Neon user to check if this user is allowed in the hotel system"); // #
   }
 }
 
-function LoginUser($user, $password, $position) {
+function LoginUser($user, $password) {
   $result = doUserAndPasswordMatch($user, $password);
   if ($result) {
     if (CheckInteractiveStatus($result['accountId'])) {
@@ -66,17 +65,15 @@ function LoginUser($user, $password, $position) {
       $_SESSION['username'] = $user;
       $_SESSION['FullName'] = $result['name'];
       MakeLog("Login Allowed");
-
-      goSite('/index.php?Function=main'); // goto default
-      // ##==## On "main", do check for cron process running based on "LastCronRun" from SystemLogTable
+      return(TRUE);
     } else {
       MakeLog($user . " not authorized for interaction session on this system, login denied");
-      $RETRY=2; // Not Authorized
       LogoutUser();
+      return(FALSE);
     }
   } else {
     MakeLog("Failed Login Attempt by " . $user);
-    $RETRY=1; // Bad password
+    return(FALSE);
   }
 }
 ?>

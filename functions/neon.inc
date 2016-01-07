@@ -188,6 +188,15 @@ class Neon
       return $data;
     }
   }
+  
+  /*
+   * Rebuild all local tables from NeonCRM Data
+   * This functionality should be replaced when the API can do direct searches
+   * of event data and custom field data
+   */
+  public function rebuildNeonData() {
+    ##==## Boy is this gonna be fun!
+  }
 }
 
 /* Start the NeonCRM Session */

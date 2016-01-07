@@ -36,6 +36,10 @@ like IWAccess rooms, CON rooms, suites, direct assignments, etc
     HOTEL3 INT,
     BEDPREF INT,
     LASTCONTACT TIMESTAMP
+  ",
+  $CUSTOMFIELDS => "
+    FIELDID INT NOT NULL PRIMARY KEY,
+    FIELDLABEL TEXT
   "
 ];
 

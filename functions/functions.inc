@@ -51,9 +51,6 @@ if (is_file($SITECONFIG)) {
   die();
 }
 
-die();
-exit();
-
 // Start the session so we are ready to go no matter what we do!
 session_start();
 
