@@ -12,19 +12,12 @@ else {
 
 // Ops DB Structure
 $HOTELALLOC_TABLES = [
-  // LOGSTABLE needs to be the first table created as the create process posts to it on success (MakeLog)
+  // SYSTEMLOGSTABLE needs to be the first table created as the create process posts to it on success (MakeLog)
   $SYSTEMLOGTABLE => "
     EntryID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     LogEntry TEXT,
-    Created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    Created TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ",
-  // Shouldn't Authentication be done via Neon? ##==##
-  $AUTHENTICATIONTABLE => "
-    ATTENDEE_ID INT NOT NULL PRIMARY KEY,
-    LoginName VARCHAR(20) NOT NULL UNIQUE,
-    Password VARCHAR(100) NOT NULL,
-    LastChanged TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-  "
 ];
 
 
@@ -43,6 +36,10 @@ like IWAccess rooms, CON rooms, suites, direct assignments, etc
     HOTEL3 INT,
     BEDPREF INT,
     LASTCONTACT TIMESTAMP
+  ",
+  $CUSTOMFIELDS => "
+    FIELDID INT NOT NULL PRIMARY KEY,
+    FIELDLABEL TEXT
   "
 ];
 
@@ -56,7 +53,7 @@ function PopulateStaticData ($table) {
     case $GLOBALS['SYSTEMLOGTABLE']:
 	    $EntryFields = "LogEntry";
       $EntryData = [
-        "Initial Run"
+        "LastCronRun"
       ];
 
       foreach($EntryData as $line) {

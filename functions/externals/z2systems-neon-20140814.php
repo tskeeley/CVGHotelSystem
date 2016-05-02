@@ -6,11 +6,10 @@
  * Learn more about NeonCRM at http://www.z2systems.com
  * Authored by Colin Pizarek
  * http://github.com/colinpizarek
- * Pulled 12/20/2015
  */
-
+ 
+session_start();
 $_SESSION['neonSession'] = null;
-
 class Neon 
 {
   /*
@@ -74,7 +73,6 @@ class Neon
       return null;
     }
   }
-
   /*
    * General purpose API request to be executed after login
    */
@@ -95,7 +93,6 @@ class Neon
       return $go;
     }
   }
-
   /*
    * search
    * works with listaccounts, listmemberships, listdonations, etc
@@ -139,7 +136,6 @@ class Neon
       if (isset($request['page']['sortDirection'])) {
         $paging = $paging . '&page.sortDirection=' . $request['page']['sortDirection'];
         }
-
       $addon = 'responseType=json&userSessionId=' . $this->getSession();
       $parameters = $addon . $criteria . $standard . $custom . $paging;
       $build = array();
@@ -152,7 +148,6 @@ class Neon
     return null;
     }
   }
-
   /*
    * Parses the server response for list requests
    */
@@ -188,23 +183,5 @@ class Neon
       return $data;
     }
   }
-  
-  /*
-   * Rebuild all local tables from NeonCRM Data
-   * This functionality should be replaced when the API can do direct searches
-   * of event data and custom field data
-   */
-  public function rebuildNeonData() {
-    ##==## Boy is this gonna be fun!
-  }
 }
-
-/* Start the NeonCRM Session */
-$Neon = new Neon();
-$keys = [
-  'orgId'=>$NEONID,
-  'apiKey'=>$NEONKEY,
-  ]; 
-$Neon->login($keys) or die("Failed to login to the NeonCRM System with OrgID " . $orgId . ".  Check the login/API settings in .ht_neon.php!  Error returned: ". $neon['responsemessage']);
-
 ?>
