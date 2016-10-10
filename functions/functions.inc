@@ -7,6 +7,7 @@ $FUNCTIONDIR    = dirname(__FILE__);
 $BASEDIR        = dirname($FUNCTIONDIR);
 $WEBSERVER      = $_SERVER['SERVER_NAME'];
 $BASEURL        = "http://" . $WEBSERVER;
+$MODULENAME     = "Hotel Allocation";
 
 // Static Variables
 $SITECONFIG     = $BASEDIR . '.ht_hotelalloc_config.php';
@@ -35,16 +36,17 @@ if (is_file($SITECONFIG)) {
   // Give a default config file
   echo '
     <html>
-      <head>CON-In-A-Box Site Config (Hotel Allocation module)</head>
+      <head>CON-In-A-Box Site Config (' . $MODULENAME . ' module)</head>
     <body>
       <pre>
         SITE CONFIGURATION ERROR -- ' . $SITECONFIG . ' missing.
         
-        Please see the .ht_hotelalloc_config-EXAMPLE.php config file, update it for
-        your location, and copy/rename it correctly.
+	Please see the
+	>> ' . $SITECONFIG .'-EXAMPLE <<
+	config file, update it for your location, and copy/rename it correctly.
         
-        Note: This file should have limited permissions to protect your database
-        info and passwords.
+        Note: This file should have limited permissions to protect your system
+        information and passwords.
       </pre>
     </body>
   </html>';
